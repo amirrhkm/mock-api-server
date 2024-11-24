@@ -37,13 +37,23 @@ const STATE = {
 
 @Controller()
 export class ShardController {
-  private getRandomStore(): string {
+  private getRandomMetricsStore(): string {
     const size = (Math.random() * (20 - 15) + 15).toFixed(1);
     return `${size}gb`;
   }
 
-  private getRandomDocs(): string {
+  private getRandomLogsStore(): string {
+    const size = (Math.random() * (120 - 40) + 40).toFixed(1);
+    return `${size}mb`;
+  }
+
+  private getRandomMetricsDocs(): string {
     const docs = Math.floor(Math.random() * (150000000 - 100000000) + 100000000);
+    return docs.toString();
+  }
+
+  private getRandomLogsDocs(): string {
+    const docs = Math.floor(Math.random() * (300000 - 1000) + 1000);
     return docs.toString();
   }
 
@@ -56,62 +66,127 @@ export class ShardController {
     if (type === '_cat' && index === 'otlp-metrics' && format === 'json') {
       return [
         {
-          index: 'otlp-metrics-000004',
+          index: 'otlp-metrics',
           shard: '0',
           prirep: PRIREP.PRIMARY,
           state: STATE.STARTED,
-          docs: this.getRandomDocs(),
-          store: this.getRandomStore(),
+          docs: this.getRandomMetricsDocs(),
+          store: this.getRandomMetricsStore(),
           ip: NODE_IPS.MASTER_0,
           node: MASTER_NODES.MASTER_0
         },
         {
-          index: 'otlp-metrics-000004',
+          index: 'otlp-metrics',
           shard: '0',
           prirep: PRIREP.REPLICA,
           state: STATE.UNASSIGNED,
-          docs: this.getRandomDocs(),
-          store: this.getRandomStore(),
+          docs: this.getRandomMetricsDocs(),
+          store: this.getRandomMetricsStore(),
           ip: NODE_IPS.MASTER_2,
           node: MASTER_NODES.MASTER_2
         },
         {
-          index: 'otlp-metrics-000004',
+          index: 'otlp-metrics',
           shard: '1',
           prirep: PRIREP.PRIMARY,
           state: STATE.UNASSIGNED,
-          docs: this.getRandomDocs(),
-          store: this.getRandomStore(),
+          docs: this.getRandomMetricsDocs(),
+          store: this.getRandomMetricsStore(),
           ip: NODE_IPS.MASTER_1,
           node: MASTER_NODES.MASTER_1
         },
         {
-          index: 'otlp-metrics-000004',
+          index: 'otlp-metrics',
           shard: '1',
           prirep: PRIREP.REPLICA,
           state: STATE.STARTED,
-          docs: this.getRandomDocs(),
-          store: this.getRandomStore(),
+          docs: this.getRandomMetricsDocs(),
+          store: this.getRandomMetricsStore(),
           ip: NODE_IPS.MASTER_2,
           node: MASTER_NODES.MASTER_2
         },
         {
-          index: 'otlp-metrics-000004',
+          index: 'otlp-metrics',
           shard: '2',
           prirep: PRIREP.PRIMARY,
           state: STATE.STARTED,
-          docs: this.getRandomDocs(),
-          store: this.getRandomStore(),
+          docs: this.getRandomMetricsDocs(),
+          store: this.getRandomMetricsStore(),
           ip: NODE_IPS.MASTER_1,
           node: MASTER_NODES.MASTER_1
         },
         {
-          index: 'otlp-metrics-000004',
+          index: 'otlp-metrics',
           shard: '2',
           prirep: PRIREP.REPLICA,
           state: STATE.UNASSIGNED,
-          docs: this.getRandomDocs(),
-          store: this.getRandomStore(),
+          docs: this.getRandomMetricsDocs(),
+          store: this.getRandomMetricsStore(),
+          ip: NODE_IPS.MASTER_0,
+          node: MASTER_NODES.MASTER_0
+        }
+      ];
+    }
+
+    if (type === '_cat' && index === 'otlp-logs' && format === 'json') {
+      return [
+        {
+          index: 'otlp-logs',
+          shard: '0',
+          prirep: PRIREP.PRIMARY,
+          state: STATE.STARTED,
+          docs: this.getRandomLogsDocs(),
+          store: this.getRandomLogsStore(),
+          ip: NODE_IPS.MASTER_0,
+          node: MASTER_NODES.MASTER_0
+        },
+        {
+          index: 'otlp-logs',
+          shard: '0',
+          prirep: PRIREP.REPLICA,
+          state: STATE.UNASSIGNED,
+          docs: this.getRandomLogsDocs(),
+          store: this.getRandomLogsStore(),
+          ip: NODE_IPS.MASTER_2,
+          node: MASTER_NODES.MASTER_2
+        },
+        {
+          index: 'otlp-logs',
+          shard: '1',
+          prirep: PRIREP.PRIMARY,
+          state: STATE.UNASSIGNED,
+          docs: this.getRandomLogsDocs(),
+          store: this.getRandomLogsStore(),
+          ip: NODE_IPS.MASTER_1,
+          node: MASTER_NODES.MASTER_1
+        },
+        {
+          index: 'otlp-logs',
+          shard: '1',
+          prirep: PRIREP.REPLICA,
+          state: STATE.STARTED,
+          docs: this.getRandomLogsDocs(),
+          store: this.getRandomLogsStore(),
+          ip: NODE_IPS.MASTER_2,
+          node: MASTER_NODES.MASTER_2
+        },
+        {
+          index: 'otlp-logs',
+          shard: '2',
+          prirep: PRIREP.PRIMARY,
+          state: STATE.STARTED,
+          docs: this.getRandomLogsDocs(),
+          store: this.getRandomLogsStore(),
+          ip: NODE_IPS.MASTER_1,
+          node: MASTER_NODES.MASTER_1
+        },
+        {
+          index: 'otlp-logs',
+          shard: '2',
+          prirep: PRIREP.REPLICA,
+          state: STATE.UNASSIGNED,
+          docs: this.getRandomLogsDocs(),
+          store: this.getRandomLogsStore(),
           ip: NODE_IPS.MASTER_0,
           node: MASTER_NODES.MASTER_0
         }
